@@ -1,0 +1,12 @@
+# turn off the web dynos in staging
+heroku maintenance:on -a stg-property-mgmt
+
+# backup the staging database if you are paranoid like me (optional)
+heroku pg:backups capture -a stg-property-mgmt
+
+# execute the copy
+heroku pg:copy property-mgmt::DATABASE_URL DATABASE_URL -a stg-property-mgmt --confirm stg-property-mgmt
+
+# remove maintenance mode
+heroku maintenance:off -a stg-property-mgmt
+
